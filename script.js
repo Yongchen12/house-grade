@@ -202,6 +202,26 @@ function optionMarkup(question, label, score) {
   `;
 }
 
+function customScoreMarkup(question) {
+  return `
+    <label class="custom-score">
+      <span>自定义分数</span>
+      <div class="custom-score-input">
+        <input
+          type="number"
+          min="0"
+          max="${question.max}"
+          step="0.1"
+          inputmode="decimal"
+          placeholder="0–${question.max}"
+          data-custom-score="${question.id}"
+        />
+        <b>分</b>
+      </div>
+    </label>
+  `;
+}
+
 function renderSections() {
   sectionsContainer.innerHTML = categories
     .map(
@@ -230,6 +250,7 @@ function renderSections() {
                       ${question.options
                         .map(([label, score]) => optionMarkup(question, label, score))
                         .join("")}
+                      ${customScoreMarkup(question)}
                     </div>
                   </div>
                 `,
@@ -246,7 +267,16 @@ function clamp(value, min, max) {
   return Math.min(Math.max(Number(value) || 0, min), max);
 }
 
+function formatScore(score) {
+  return Number.isInteger(score) ? String(score) : score.toFixed(1).replace(/\.0$/, "");
+}
+
 function getQuestionScore(question) {
+  const customInput = form.querySelector(`[data-custom-score="${question.id}"]`);
+  if (customInput && customInput.value !== "") {
+    return clamp(customInput.value, 0, question.max);
+  }
+
   const selected = form.querySelector(`input[name="${question.id}"]:checked`);
   if (!selected) return 0;
 
@@ -278,16 +308,16 @@ function getDeductionScore() {
 function updateLiveScores() {
   categories.forEach((category) => {
     const output = document.querySelector(`[data-live-score="${category.id}"]`);
-    output.textContent = getCategoryScore(category);
+    output.textContent = formatScore(getCategoryScore(category));
   });
 
   const rawBonus = [...form.querySelectorAll('input[name="bonus"]:checked')].reduce(
     (sum, checkbox) => sum + Number(checkbox.value),
     0,
   );
-  document.querySelector("#bonusLiveScore").textContent = getBonusScore();
+  document.querySelector("#bonusLiveScore").textContent = formatScore(getBonusScore());
   document.querySelector("#bonusCapNote").hidden = rawBonus <= 20;
-  document.querySelector("#deductionLiveScore").textContent = getDeductionScore();
+  document.querySelector("#deductionLiveScore").textContent = formatScore(getDeductionScore());
 }
 
 function getResultLabel(score) {
@@ -308,17 +338,17 @@ function renderResult() {
   const deductionScore = getDeductionScore();
   const finalScore = Math.max(0, baseScore + bonusScore - deductionScore);
 
-  document.querySelector("#finalScore").textContent = finalScore;
+  document.querySelector("#finalScore").textContent = formatScore(finalScore);
   document.querySelector("#resultLabel").textContent = getResultLabel(finalScore);
-  document.querySelector("#baseTotal").textContent = `${baseScore} / 100`;
-  document.querySelector("#bonusTotal").textContent = `+${bonusScore}`;
-  document.querySelector("#deductionTotal").textContent = `−${deductionScore}`;
+  document.querySelector("#baseTotal").textContent = `${formatScore(baseScore)} / 100`;
+  document.querySelector("#bonusTotal").textContent = `+${formatScore(bonusScore)}`;
+  document.querySelector("#deductionTotal").textContent = `−${formatScore(deductionScore)}`;
   document.querySelector("#breakdownRows").innerHTML = categoryResults
     .map(
       (category) => `
         <div class="breakdown-row">
           <span>${category.title}</span>
-          <b>${category.score} / ${category.max}</b>
+          <b>${formatScore(category.score)} / ${category.max}</b>
         </div>
       `,
     )
@@ -335,10 +365,35 @@ form.addEventListener("input", (event) => {
     event.target.value = clamp(event.target.value, 0, 20);
   }
 
+  if (event.target.matches("[data-custom-score]")) {
+    const questionId = event.target.dataset.customScore;
+    const question = categories
+      .flatMap((category) => category.questions)
+      .find((item) => item.id === questionId);
+
+    if (question && event.target.value !== "") {
+      event.target.value = clamp(event.target.value, 0, question.max);
+      form
+        .querySelectorAll(`input[name="${questionId}"]`)
+        .forEach((radio) => {
+          radio.checked = false;
+        });
+    }
+  }
+
   updateLiveScores();
 });
 
-form.addEventListener("change", updateLiveScores);
+form.addEventListener("change", (event) => {
+  if (event.target.type === "radio") {
+    const customInput = form.querySelector(
+      `[data-custom-score="${event.target.name}"]`,
+    );
+    if (customInput) customInput.value = "";
+  }
+
+  updateLiveScores();
+});
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
