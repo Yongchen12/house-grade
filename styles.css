@@ -323,6 +323,52 @@ main {
   white-space: nowrap;
 }
 
+.custom-score {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px 8px 13px;
+  border: 1px dashed rgba(31, 107, 79, 0.42);
+  border-radius: 12px;
+  color: var(--green-dark);
+  background: rgba(230, 240, 232, 0.45);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.custom-score-input {
+  width: 104px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 9px;
+  border: 1px solid rgba(31, 107, 79, 0.22);
+  border-radius: 9px;
+  background: #fff;
+}
+
+.custom-score-input:focus-within {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(31, 107, 79, 0.1);
+}
+
+.custom-score-input input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  color: var(--green);
+  background: transparent;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.custom-score-input b {
+  color: var(--muted);
+  font-size: 11px;
+}
+
 .bonus-section {
   border-color: rgba(185, 121, 29, 0.2);
   background: #fffcf5;
@@ -780,6 +826,11 @@ footer span {
   .option-content {
     padding: 9px 10px;
     font-size: 13px;
+  }
+
+  .custom-score {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .deduction-inputs {
