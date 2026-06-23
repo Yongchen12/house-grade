@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="一个简单清晰的买房评分工具，快速比较小区、格局、装修、硬件与亮点。"
+    />
+    <title>HouseGrade · 买房评分系统</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" role="img">
+              <path d="M8 23.5 24 10l16 13.5V39a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3V23.5Z" />
+              <path d="M18 42V28h12v14M4 25 24 8l20 17" />
+            </svg>
+          </span>
+          <span>HouseGrade</span>
+        </div>
+        <div class="hero-copy">
+          <p class="eyebrow">HOME BUYING SCORECARD</p>
+          <h1>这套房，<br /><span>到底值几分？</span></h1>
+          <p class="hero-description">
+            把感觉变成分数。逐项选择房屋条件，最后得到一份清楚、可比较的评分。
+          </p>
+        </div>
+        <div class="score-preview" aria-hidden="true">
+          <div class="preview-ring">
+            <span>满分</span>
+            <strong>100</strong>
+            <small>+ 亮点分</small>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <form id="scoreForm">
+          <div id="scoreSections"></div>
+
+          <section class="score-section bonus-section">
+            <div class="section-heading">
+              <div>
+                <span class="section-number">BONUS</span>
+                <h2>亮点加分</h2>
+                <p>属于这套房的额外惊喜，累计最多加 20 分。</p>
+              </div>
+              <div class="section-score bonus-color">
+                <strong id="bonusLiveScore">0</strong><span>/ 20</span>
+              </div>
+            </div>
+
+            <div class="bonus-grid">
+              <label class="bonus-card">
+                <input type="checkbox" name="bonus" value="10" />
+                <span class="bonus-check" aria-hidden="true"></span>
+                <span class="bonus-icon">☀</span>
+                <span class="bonus-text">
+                  <strong>后院朝南 / 西南</strong>
+                  <small>采光与日照方向理想</small>
+                </span>
+                <b>+10</b>
+              </label>
+              <label class="bonus-card">
+                <input type="checkbox" name="bonus" value="7" />
+                <span class="bonus-check" aria-hidden="true"></span>
+                <span class="bonus-icon">▦</span>
+                <span class="bonus-text">
+                  <strong>窗户换新</strong>
+                  <small>5 年以内</small>
+                </span>
+                <b>+7</b>
+              </label>
+              <label class="bonus-card">
+                <input type="checkbox" name="bonus" value="5" />
+                <span class="bonus-check" aria-hidden="true"></span>
+                <span class="bonus-icon">⌂</span>
+                <span class="bonus-text">
+                  <strong>前院走廊</strong>
+                  <small>实用又提升门面</small>
+                </span>
+                <b>+5</b>
+              </label>
+            </div>
+            <p class="cap-note" id="bonusCapNote" hidden>亮点分按上限 20 分计入。</p>
+          </section>
+
+          <section class="score-section deduction-section">
+            <div class="section-heading">
+              <div>

@@ -1,0 +1,100 @@
+:root {
+  --ink: #17211b;
+  --muted: #6f7872;
+  --cream: #f3f0e8;
+  --paper: #fffdf8;
+  --line: #dddcd4;
+  --green: #1f6b4f;
+  --green-dark: #124834;
+  --green-soft: #e6f0e8;
+  --gold: #b9791d;
+  --gold-soft: #fbefd9;
+  --red: #a94a40;
+  --red-soft: #f7e8e4;
+  --shadow: 0 22px 70px rgba(24, 48, 35, 0.11);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 8%, rgba(255, 255, 255, 0.92), transparent 25%),
+    var(--cream);
+  font-family: "DM Sans", "Noto Sans SC", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button,
+label {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.page-shell {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.hero {
+  min-height: 500px;
+  padding: 34px 0 68px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 0.55fr;
+  align-items: center;
+  overflow: hidden;
+}
+
+.brand {
+  position: absolute;
+  top: 34px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: var(--paper);
+  background: var(--green);
+  border-radius: 10px;
+}
+
+.brand-mark svg {
+  width: 23px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
+}
+
+.hero-copy {
+  padding-top: 58px;
+}
+
+.eyebrow {
+  margin: 0 0 20px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
